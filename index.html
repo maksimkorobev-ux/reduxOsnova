@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Owner X Ripper | Моды Redux & Gunpack для GTA 5 RP & Majestic RP</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter + Orbitron for accents -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #05070c;
+            color: #edf2ff;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .bg-cyber {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 20% 30%, #0f0c1f, #020308);
+            z-index: -3;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(80, 60, 160, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(80, 60, 160, 0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .glow-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #a855f7, #ec4899, #a855f7);
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-weight: 800;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #e2b0ff, #9f5eff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: #9ca3af;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        /* Блок с логотипами проектов */
+        .projects-logos {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        .project-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(168, 85, 247, 0.1);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .project-logo i {
+            font-size: 1.6rem;
+        }
+        .project-logo span {
+            background: linear-gradient(120deg, #fff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .rp-badge {
+            display: inline-flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .badge-item {
+            background: rgba(168, 85, 247, 0.15);
+            backdrop-filter: blur(5px);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 3rem 0 1rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .section-sub {
+            text-align: center;
+            color: #b4c0e0;
+            margin-bottom: 2rem;
+        }
+
+        .price-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+            margin: 2rem 0 3rem;
+        }
+
+        .mod-card {
+            background: rgba(12, 15, 28, 0.8);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            width: 340px;
+            padding: 2rem 1.8rem;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.6);
+        }
+
+        .mod-card:hover {
+            transform: translateY(-10px);
+            border-color: #c084fc;
+            box-shadow: 0 30px 40px -10px #a855f730;
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(120deg, #fff, #d9a7ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .price {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin: 1rem 0;
+        }
+
+        .price small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #9aa7c7;
+        }
+
+        .btn-buy {
+            background: linear-gradient(95deg, #7c3aed, #a855f7);
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 700;
+            color: white;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-buy:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px #a855f7;
+        }
+
+        .desc-block {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin: 3rem 0;
+            border-left: 4px solid #a855f7;
+        }
+
+        .two-cols {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .col-desc {
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        .feature-list li {
+            margin: 0.7rem 0;
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        .feature-list i.fa-check {
+            color: #a855f7;
+        }
+
+        .advantages {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .adv-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            flex: 1;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .giveaway-block {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(168, 85, 247, 0.1));
+            border-radius: 2rem;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            backdrop-filter: blur(8px);
+            transition: 0.3s;
+        }
+        .giveaway-block:hover {
+            border-color: #ec4899;
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+        .giveaway-title {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fbbf24, #ec4899, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .giveaway-text {
+            font-size: 1.1rem;
+            color: #ddd9ff;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+        .giveaway-btn {
+            background: linear-gradient(95deg, #ec4899, #a855f7);
+            padding: 1rem 2.5rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .giveaway-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px #ec4899;
+        }
+
+        /* НОВЫЙ БЛОК: Ripper famq — интеграция (большой) */
+        .integration-block {
+            background: linear-gradient(115deg, rgba(0, 0, 0, 0.7), rgba(80, 40, 130, 0.4));
+            border-radius: 2.5rem;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid rgba(168, 85, 247, 0.6);
+            backdrop-filter: blur(12px);
+            transition: 0.3s;
+        }
+        .integration-block:hover {
+            border-color: #ec4899;
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.4);
+            transform: scale(1.01);
+        }
+        .integration-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(145deg, #f0e6ff, #c084fc, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+        .integration-title i {
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            color: #c084fc;
+        }
+        .integration-sub {
+            font-size: 1.2rem;
+            color: #ccc9ff;
+            max-width: 800px;
+            margin: 0 auto 1.2rem;
+        }
+        .integration-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .integration-feature {
+            background: rgba(168, 85, 247, 0.15);
+            border-radius: 2rem;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(4px);
+        }
+        .integration-btn {
+            background: linear-gradient(95deg, #5865f2, #7c3aed);
+            padding: 1.1rem 2.8rem;
+            border-radius: 80px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+            margin-top: 1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .integration-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px #5865f2;
+            background: linear-gradient(95deg, #4752c4, #6b21db);
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .btn-telegram {
+            background: #1e8aef20;
+            border: 1px solid #2aabee60;
+        }
+        .btn-telegram:hover {
+            background: #1f8aef;
+        }
+        .btn-discord {
+            background: #5865f220;
+            border: 1px solid #5865f260;
+        }
+        .btn-discord:hover {
+            background: #5865f2;
+        }
+        .btn-copy {
+            background: rgba(30,33,46,0.9);
+            border: 1px solid #a855f7;
+        }
+        .btn-copy:hover {
+            background: #a855f7;
+        }
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+            backdrop-filter: blur(8px);
+        }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        .faq-item {
+            background: rgba(20,24,40,0.6);
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(168,85,247,0.2);
+        }
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .faq-answer {
+            margin-top: 0.8rem;
+            color: #cbd5e6;
+            display: none;
+        }
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(168,85,247,0.2);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .footer-contacts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 780px) {
+            .container {
+                padding: 1rem;
+            }
+            .logo {
+                font-size: 2rem;
+            }
+            .contact-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .contact-btn {
+                justify-content: center;
+            }
+            .giveaway-title {
+                font-size: 1.5rem;
+            }
+            .integration-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-cyber"></div>
+<div class="grid-overlay"></div>
+<div class="glow-line"></div>
+
+<div class="container">
+    <!-- Hero section -->
+    <div class="hero">
+        <div class="logo">OWNER X RIPPER FAMILY</div>
+        <div class="tagline"> majestic • ultimate modding</div>
+        
+        <div class="projects-logos">
+            <div class="project-logo">
+                <i class="fab fa-gripfire" style="color:#ff5722;"></i>
+                <span>GTA 5 RP</span>
+            </div>
+            <div class="project-logo">
+                <i class="fas fa-crown" style="color:#fbbf24;"></i>
+                <span>Majestic RP</span>
+            </div>
+        </div>
+
+        <div class="rp-badge">
+            <span class="badge-item"><i class="fab fa-gripfire"></i> Официальный партнер</span>
+            <span class="badge-item"><i class="fas fa-code-branch"></i> Redux | Gunpack</span>
+        </div>
+        <div style="font-size: 1rem; max-width: 700px; margin: 1rem auto; color:#b9c7e0;">
+            Эксклюзивные моды для погружения в криминальный мир GTA 5. Лучшая графика, реалистичное оружие и поддержка топовых RP проектов.
+        </div>
+    </div>
+
+    <!-- Прайс-лист + моды -->
+    <div class="section-title">Прайс-лист</div>
+    <div class="section-sub">Моды Редукс и Ганпак | Owner X Ripper famq majestic</div>
+    <div class="price-grid">
+        <div class="mod-card">
+            <div class="card-icon"><i class="fas fa-sun" style="color:#f5b042;"></i></div>
+            <div class="card-title">REDUX</div>
+            <div class="price">от 1 250 ₽</div>
+            <p style="margin: 0.5rem 0;">Глобальный пересвет графики, реалистичные погодные эффекты и 4K текстуры для полного преображения игры.</p>
+            <ul class="feature-list" style="text-align: left; margin: 1rem 0;">
+                <li><i class="fas fa-check"></i> Новые шейдеры и отражения</li>
+                <li><i class="fas fa-check"></i> Трассировка лучей (Ray Tracing)</li>
+                <li><i class="fas fa-check"></i> Совместимость с FiveM / RageMP</li>
+                <li><i class="fas fa-check"></i> FPS оптимизация и стабильность</li>
+            </ul>
+            <a href="#contacts" class="btn-buy"><i class="fab fa-telegram"></i> Купить Redux</a>
+        </div>
+        <div class="mod-card">
+            <div class="card-icon"><i class="fas fa-gun" style="color:#ff884d;"></i></div>
+            <div class="card-title">ГАНПАК</div>
+            <div class="price">от 1 500 ₽</div>
+            <p style="margin: 0.5rem 0;">Оружейный арсенал премиум-класса: 35+ стволов, уникальные анимации, звуки и скины.</p>
+            <ul class="feature-list" style="text-align: left; margin: 1rem 0;">
+                <li><i class="fas fa-check"></i> Реалистичная баллистика и отдача</li>
+                <li><i class="fas fa-check"></i> Анимации перезарядки и осмотра</li>
+                <li><i class="fas fa-check"></i> Поддержка Majestic RP & GTA 5 RP</li>
+                <li><i class="fas fa-check"></i> Постоянные обновления</li>
+            </ul>
+            <a href="#contacts" class="btn-buy"><i class="fab fa-discord"></i> Купить Gunpack</a>
+        </div>
+    </div>
+
+    <!-- Слив платных редуксов и розыгрыши -->
+    <div class="giveaway-block">
+        <div class="giveaway-title">
+            <i class="fas fa-gift"></i> Слив платных редуксов и розыгрыши
+        </div>
+        <div class="giveaway-text">
+            🔥 Еженедельные розыгрыши Redux и Gunpack среди подписчиков!  
+            Бесплатные сливы эксклюзивных версий модов, тестовые доступы и закрытые конкурсы.  
+            Не упусти шанс получить премиум-моды абсолютно бесплатно!
+        </div>
+        <a href="https://t.me/owner00811" target="_blank" class="giveaway-btn">
+            <i class="fab fa-telegram fa-lg"></i> Перейти в Telegram →
+        </a>
+        <div style="margin-top: 1rem; font-size: 0.8rem; color: #b9aaff;">
+            👑 Официальный канал: t.me/owner00811
+        </div>
+    </div>
+
+    <!-- НОВЫЙ БЛОК: Ripper famq — Полная интеграция (большой) -->
+    <div class="integration-block">
+        <div class="integration-title">
+            <i class="fab fa-discord"></i> Ripper famq | Discord 
+        </div>
+        <div class="integration-sub">Не просто команда, а настоящая семья, где каждого слышат и ценят. Мы объединяемся, чтобы решать задачи, поддерживать в трудную минуту и радоваться общим победам.
+            
+        </div>
+        <div class="integration-features">
+            <span class="integration-feature"><i class="fas fa-chalkboard-user"></i>Единство </span>
+            <span class="integration-feature"><i class="fas fa-gamepad"></i> Развитие </span>
+            <span class="integration-feature"><i class="fas fa-trophy"></i>Уют</span>
+        </div>
+        <a href="https://discord.gg/X2yt3VwzYB" target="_blank" class="integration-btn">
+            <i class="fab fa-discord fa-2x"></i> Присоединиться к Discord →
+        </a>
+        <p style="margin-top: 1.2rem; font-size: 0.85rem; opacity: 0.8;"></p>
+    </div>
+
+    <!-- Описание задачи / Для какого проекта и детали -->
+    <div class="desc-block">
+        <h2 style="font-size: 1.8rem; display: flex; gap: 10px;"><i class="fas fa-tasks" style="color:#a855f7;"></i> Описание задачи</h2>
+        <p style="margin-top: 0.5rem;"><strong>Для каких проектов созданы моды?</strong><br>
+        Наши моды идеально подходят для серверов <strong>GTA 5 RP</strong> и официально протестированы на флагманском проекте <strong>Majestic RP</strong>. Мы обеспечиваем полную совместимость с популярными фреймворками (ESX, QBCore, vRP) и собственную поддержку.</p>
+        <div class="two-cols">
+            <div class="col-desc">
+                <h3><i class="fas fa-city"></i> GTA 5 RP — общее преимущество</h3>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Улучшение визуала для стримов и ролеплея</li>
+                    <li><i class="fas fa-check"></i> Стабильность даже при 5000+ игроках</li>
+                    <li><i class="fas fa-check"></i> Кастомные эффекты для ночных гонок и перестрелок</li>
+                </ul>
+            </div>
+            <div class="col-desc">
+                <h3><i class="fas fa-dragon"></i> Majestic RP — эксклюзивная интеграция</h3>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Пресет "Ripper Edition" с кастомными погодами</li>
+                    <li><i class="fas fa-check"></i> Оружейный пак с уникальными моделями для Фракций LSPD и банд</li>
+                    <li><i class="fas fa-check"></i> Техническая поддержка и установка "под ключ"</li>
+                </ul>
+            </div>
+        </div>
+        <div style="background: #00000040; border-radius: 1rem; padding: 1rem; margin-top: 1.2rem;">
+            <i class="fas fa-star-of-life" style="color:#f0b27a;"></i> <strong>Примечание от модмейкера:</strong> Redux и Gunpack совместимы между собой, при заказе комплекта — скидка 10% + бонусный эксклюзивный звуковой пак. Все файлы передаются после оплаты с гайдом по установке.
+        </div>
+    </div>
+
+    <!-- Преимущества -->
+    <div class="section-title">Почему выбирают нас</div>
+    <div class="advantages">
+        <div class="adv-item"><i class="fas fa-shield-alt fa-2x" style="color:#a855f7;"></i><h3>Безопасность</h3><p>Античит защита, моды не триггерят баны, работаем только с проверенными хуками.</p></div>
+        <div class="adv-item"><i class="fas fa-headset fa-2x" style="color:#a855f7;"></i><h3>24/7 поддержка</h3><p>Помощь с установкой, настройкой и обновлениями. Ответ в Telegram/Дискорд за 5 минут.</p></div>
+        <div class="adv-item"><i class="fas fa-sync-alt fa-2x" style="color:#a855f7;"></i><h3>Регулярные апдейты</h3><p>Адаптация под новые патчи GTA, дополнения по запросам клиентов.</p></div>
+    </div>
+
+    <!-- Как купить и контакты -->
+    <div id="contacts" style="scroll-margin-top: 100px;">
+        <div class="section-title"><i class="fas fa-comments"></i>  Связаться для покупки</div>
+        <div class="section-sub">Просто напишите нам в любом мессенджере — ответим сразу!</div>
+        
+        <div class="contact-buttons">
+            <a href="https://t.me/Owner08111" target="_blank" class="contact-btn btn-telegram">
+                <i class="fab fa-telegram-plane fa-lg"></i> Telegram @Owner08111
+            </a>
+            <a href="#" id="discordCopyBtn" class="contact-btn btn-discord">
+                <i class="fab fa-discord fa-lg"></i> Discord: intelektikk (копировать)
+            </a>
+            <a href="#faq" class="contact-btn btn-copy" id="copyAllContactsBtn">
+                <i class="fas fa-copy"></i> Скопировать все контакты
+            </a>
+        </div>
+
+        <div style="text-align: center; margin: 1rem 0;">
+            <p>Или напишите напрямую в телеграм: <strong><a href="https://t.me/owner00811" target="_blank" style="color:#c084fc;">t.me/owner00811</a></strong> — Owner канал/мессенджер.</p>
+        </div>
+    </div>
+
+    <!-- FAQ блок -->
+    <div class="section-title" id="faq">Часто задаваемые вопросы</div>
+    <div class="faq-grid">
+        <div class="faq-item">
+            <div class="faq-question">❓ Подходит ли мод для Majestic RP?<span><i class="fas fa-chevron-down"></i></span></div>
+            <div class="faq-answer">Да, Redux и Gunpack полностью оптимизированы для Majestic RP. После установки не будет лагов и конфликтов с серверными скриптами.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">❓ Как получить моды после оплаты?<span><i class="fas fa-chevron-down"></i></span></div>
+            <div class="faq-answer">После оплаты мы высылаем архив с модом, видео-инструкцией и ключом активации. Поддержка 24/7 если возникли проблемы.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">❓ Можно ли заказать индивидуальную доработку?<span><i class="fas fa-chevron-down"></i></span></div>
+            <div class="faq-answer">Конечно! Модмейкер intelektikk делает кастомные текстуры, звуки и анимации под ваш сервер. Цена обсуждается индивидуально.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">❓ Есть ли гарантия и обновления?<span><i class="fas fa-chevron-down"></i></span></div>
+            <div class="faq-answer">Да, обновления бесплатные в течение 6 месяцев. При выходе крупных версий — скидка 30% для постоянных клиентов.</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-contacts">
+            <span><i class="fas fa-tag"></i> Ripper famq majestic rp</span>
+            <span><i class="fab fa-discord"></i> Дискорд модмейкера: <strong>intelektikk</strong></span>
+            <span><i class="fab fa-telegram"></i> Telegram Owner: <a href="https://t.me/owner00811" target="_blank">t.me/owner00811</a></span>
+        </div>
+        <div>
+            <p>© 2025 Owner X Ripper famq —  комьюнити. Все права защищены.</p>
+            <p style="margin-top: 0.5rem;">Прайс-лист | Моды Редукс и Ганпак | Поддержка 24/7</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // FAQ аккордеон
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            item.classList.toggle('active');
+            const icon = question.querySelector('i');
+            if (item.classList.contains('active')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        });
+    });
+
+    // Копирование дискорда
+    const discordBtn = document.getElementById('discordCopyBtn');
+    if(discordBtn) {
+        discordBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            navigator.clipboard.writeText('intelektikk').then(() => {
+                discordBtn.innerHTML = '<i class="fab fa-discord"></i> Discord скопирован!';
+                setTimeout(() => {
+                    discordBtn.innerHTML = '<i class="fab fa-discord fa-lg"></i> Discord: intelektikk (копировать)';
+                }, 2000);
+            }).catch(() => alert('Скопируйте имя вручную: intelektikk'));
+        });
+    }
+
+    // Кнопка копирования всех контактов
+    const copyAllBtn = document.getElementById('copyAllContactsBtn');
+    if(copyAllBtn) {
+        copyAllBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const contactsAll = `Telegram для связи: @Owner08111 или t.me/owner00811\nDiscord модмейкера: intelektikk\nКупить моды Redux от 1250₽, Gunpack от 1500₽. Проекты: GTA 5 RP, Majestic RP.`;
+            navigator.clipboard.writeText(contactsAll).then(() => {
+                copyAllBtn.innerHTML = '<i class="fas fa-check-circle"></i> Контакты скопированы!';
+                setTimeout(() => {
+                    copyAllBtn.innerHTML = '<i class="fas fa-copy"></i> Скопировать все контакты';
+                }, 2500);
+            });
+        });
+    }
+
+    // плавный скролл для кнопок "Купить Redux/Gunpack" к секции контактов
+    document.querySelectorAll('.btn-buy').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector('#contacts');
+            if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+</script>
+</body>
+</html>
